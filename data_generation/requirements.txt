@@ -1,0 +1,7 @@
+requests
+py-markdown-table
+numpy
+scipy
+pandas
+matplotlib
+
