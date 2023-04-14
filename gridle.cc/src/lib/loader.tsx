@@ -19,3 +19,15 @@ export const loadPartners = async () => {
     return await data.json();
 }
 
+export const loadDaily = async () => {
+    const data = await fetch("/data/daily.json")
+    console.log(data);
+    return await data.json();
+}
+
+export const loadEndless = async () => {
+    const data = await fetch("/data/endless.json")
+    console.log(data);
+    return await data.json();
+}
+

@@ -50,6 +50,7 @@ def team_data(key):
         'name': team['nickname'],
         'country': team['country'],
         'school': team['school_name'],
+        'state_prov': team['state_prov'],
         'rookie_year': team['rookie_year'],
         'events': events,
         'district_abbreviation': district_abbreviation,
@@ -65,7 +66,7 @@ def save_teams(keys):
 
     out = {k: v for (k, v) in teams}
 
-    with open(f'../output/teams/teams.json', 'w') as f:
+    with open(f'../output/teams.json', 'w') as f:
         json.dump(out, f)
 
     return out
@@ -113,6 +114,6 @@ if __name__ == '__main__':
     for team_key in team_keys:
         partners[team_key[3:]] = save_team_matches(team_key, matches_dict)
 
-    with open(f'../output/teams/partners.json', 'w') as f:
+    with open(f'../output/partners.json', 'w') as f:
         json.dump(partners, f)
 

@@ -11,6 +11,8 @@ import {notEmpty, optionsForPosition} from "@/lib/optionsFilter";
 
 interface GridleProps {
     gridKey: string;
+
+    gridName: string;
 }
 
 const Gridle: React.FunctionComponent<GridleProps> = (props: GridleProps): JSX.Element => {
@@ -86,10 +88,17 @@ const Gridle: React.FunctionComponent<GridleProps> = (props: GridleProps): JSX.E
             const _allOptions: { [key: string]: TeamInput } = {};
             _options.forEach((t: TeamInput) => _allOptions[t.value] = t);
             setAllOptions(_allOptions);
+
+            // Reset dropdowns and guesses
+            setInput1(null);
+            setInput2(null);
+            setInput3(null);
+            setGuesses([]);
+            setShowEndCondition(false);
         }
 
         fetchData().catch(console.error);
-    }, []);
+    }, [props.gridKey]);
 
     /**
      * Callback for when a guess dropdown changes to adjust the dropdown lists based on the current state. Used to
@@ -304,7 +313,7 @@ const Gridle: React.FunctionComponent<GridleProps> = (props: GridleProps): JSX.E
                             <button
                                 type="submit"
                                 className="block w-full rounded-md bg-indigo-600 px-3.5 py-1 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={() => navigator.clipboard.writeText(generateShareText(guesses, "#2 - 4/13"))}
+                                onClick={() => navigator.clipboard.writeText(generateShareText(guesses, props.gridName))}
                             >
                                 Copy Share Text
                             </button>

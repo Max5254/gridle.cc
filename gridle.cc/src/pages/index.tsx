@@ -1,14 +1,30 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import Gridle from "@/components/gridle";
-const inter = Inter({ subsets: ['latin'] })
+import {useEffect} from "react";
+import {loadDaily} from "@/lib/loader";
+import * as React from "react";
 
 export default function Home() {
+
+    const [gridKey, setGridKey] = React.useState<string>("");
+
+    /**
+     * ComponentDidMount hook
+     */
+    useEffect(() => {
+        const fetchData = async () => {
+            const dailyGrids =  await loadDaily();
+            const today = new Date().toISOString().slice(0, 10);
+            setGridKey(dailyGrids[today] + ".json");
+        }
+
+        fetchData().catch(console.error);
+    }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-12">
 
         <div className="m-auto">
-            <Gridle gridKey={'2023njfla_red.json'} />
+            <Gridle gridKey={gridKey} gridName={new Date().toISOString().slice(0, 10)}/>
         </div>
 
         <footer className="h-1">

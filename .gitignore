@@ -112,3 +112,5 @@ dist
 
 # data files
 */data/*
+data_generation/output
+*output*
