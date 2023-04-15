@@ -133,10 +133,12 @@ const Gridle: React.FunctionComponent<GridleProps> = (props: GridleProps): JSX.E
      *
      * @param t string of team number
      * @param correctDistricts list of the districts of the teams in the grid
+     * @param correctStates list of the states of the teams in the grid
      */
-    const guessForTeam = (t: string, correctDistricts: string[]): GuessProps => {
+    const guessForTeam = (t: string, correctDistricts: string[], correctStates: string[]): GuessProps => {
         const teamData = teams[t];
         const districtCorrect = correctDistricts.includes(teamData['district_abbreviation']);
+        const stateCorrect = correctStates.includes(teamData['state_prov']);
         const eventCorrect = teamData['events'].includes(grid['eventKey']);
 
         if (districtCorrect) {
@@ -144,9 +146,15 @@ const Gridle: React.FunctionComponent<GridleProps> = (props: GridleProps): JSX.E
             correctDistricts.splice(index, 1);
         }
 
+        if (stateCorrect) {
+            const index = correctStates.indexOf(teamData['state_prov']);
+            correctStates.splice(index, 1);
+        }
+
         return {
             teamNumber: t,
             districtGuess: districtCorrect ? GuessType.CORRECT : GuessType.WRONG,
+            stateGuess: stateCorrect ? GuessType.CORRECT : GuessType.WRONG,
             eventGuess: eventCorrect ? GuessType.CORRECT : GuessType.WRONG,
             teamGuess: grid['teams'].includes(t) ? GuessType.CORRECT : GuessType.WRONG,
         }
@@ -181,6 +189,7 @@ const Gridle: React.FunctionComponent<GridleProps> = (props: GridleProps): JSX.E
 
         // Find the district for all teams in the grid
         const correctDistricts = grid['teams'].map((t: string) => teams[t]['district_abbreviation']);
+        const correctStates = grid['teams'].map((t: string) => teams[t]['state_prov']);
         console.log("Correct Districts: " + correctDistricts)
 
         // Map through all teams first, only updating if the guess was correct
@@ -188,7 +197,7 @@ const Gridle: React.FunctionComponent<GridleProps> = (props: GridleProps): JSX.E
         // that condition applies to a subset of teams which wouldn't necessarily be true if the correct team is last
         guessedTeams.map((t: string) => {
             if(grid['teams'].includes(t)) {
-                allGuessProps[t] = guessForTeam(t, correctDistricts);
+                allGuessProps[t] = guessForTeam(t, correctDistricts, correctStates);
             } else {
                 incorrectTeams.push(t);
                 fullyCorrect = false;
@@ -196,11 +205,15 @@ const Gridle: React.FunctionComponent<GridleProps> = (props: GridleProps): JSX.E
         });
 
         // Map through remaining incorrect teams
-        incorrectTeams.map((t: string) => allGuessProps[t] = guessForTeam(t, correctDistricts));
+        incorrectTeams.map((t: string) => allGuessProps[t] = guessForTeam(t, correctDistricts, correctStates));
+
+        const currentGuessProps: GuessProps[] = [];
+        guessedTeams.forEach(t => currentGuessProps.push(allGuessProps[t]));
 
         // Update guesses state
-        const newGuessesValues = [...guesses, ...Object.values(allGuessProps)];
+        const newGuessesValues = [...guesses, ...currentGuessProps];
         setGuesses(newGuessesValues);
+
 
         // Check end condition
         if (newGuessesValues.length >= 3 * NUM_GUESSES || fullyCorrect) {

@@ -154,7 +154,7 @@ def get_all_grids():
 
             grid_occurrences[json.dumps(score['teleopCommunity'])] += 1
 
-            if score['teleopGamePieceCount'] > 7:
+            if score['teleopGamePieceCount'] > 9:
                 if m['comp_level'] == 'qm':
                     qual_grids.append((m, alliance))
                 else:
@@ -209,11 +209,11 @@ if __name__ == '__main__':
         random.shuffle(qual_grids)
         random.shuffle(playoff_grids)
 
-        daily_grids = playoff_grids[0:365]
-        endless_grids = playoff_grids[500:865]
+        daily_grids = playoff_grids[0:100]
+        endless_grids = playoff_grids[200:300]
 
-        # daily_grids.extend(qual_grids[0:500])
-        # endless_grids.extend(qual_grids[1000:1500])
+        daily_grids.extend(qual_grids[100:200])
+        endless_grids.extend(qual_grids[500:600])
 
         random.shuffle(daily_grids)
         random.shuffle(endless_grids)
@@ -239,23 +239,24 @@ if __name__ == '__main__':
         pool.map(save_grid_wrapper, daily_grids)
         pool.map(save_grid_wrapper, endless_grids)
 
-        used_grids = (daily_grids + endless_grids)
-
-        matches_dict = {m['key']: m for m in [e[0] for e in used_grids]}
-
-        team_key_set = set()
-
-        for g, a in used_grids:
-            for t in g['alliances'][a]['team_keys']:
-                team_key_set.add(t)
-
-        team_keys = list(team_key_set)
-
-        save_teams(team_keys)
-
-        partners = {}
-        for team_key in team_keys:
-            partners[team_key[3:]] = save_team_matches(team_key, matches_dict)
-
-        with open(f'../output/partners.json', 'w') as f:
-            json.dump(partners, f)
+        # used_grids = (daily_grids + endless_grids)
+        # used_grids = playoff_grids
+        #
+        # matches_dict = {m['key']: m for m in [e[0] for e in used_grids]}
+        #
+        # team_key_set = set()
+        #
+        # for g, a in used_grids:
+        #     for t in g['alliances'][a]['team_keys']:
+        #         team_key_set.add(t)
+        #
+        # team_keys = list(team_key_set)
+        #
+        # save_teams(team_keys)
+        #
+        # partners = {}
+        # for team_key in team_keys:
+        #     partners[team_key[3:]] = save_team_matches(team_key, matches_dict)
+        #
+        # with open(f'../output/partners.json', 'w') as f:
+        #     json.dump(partners, f)

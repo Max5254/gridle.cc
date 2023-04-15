@@ -16,12 +16,18 @@ const guess2Emoji = (g: GuessProps): string => {
         success += 1;
     }
 
+    if (g.stateGuess == GuessType.CORRECT) {
+        success += 1;
+    }
+
     switch (success){
         case 0:
             return "⬛";
         case 1:
-            return "🟧";
+            return "🟥"
         case 2:
+            return "🟧";
+        case 3:
             return "🟨";
     }
 

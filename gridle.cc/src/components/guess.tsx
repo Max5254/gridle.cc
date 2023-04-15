@@ -16,6 +16,9 @@ export interface GuessProps {
     // Guess for the district of this given team (NOT the district of the event)
     districtGuess: GuessType,
 
+    // Guess for the State/Prov of this given team (NOT the district of the event)
+    stateGuess: GuessType,
+
     // Guess for if this team attended the event for the grid
     eventGuess: GuessType,
 
@@ -43,6 +46,7 @@ const Guess: React.FunctionComponent<GuessProps> = (props: GuessProps): JSX.Elem
             <div className={`pt-1 pb-0.5 m-1 ${props.teamGuess === GuessType.WRONG ? "bg-white" : guess2Color[props.teamGuess]}`}>{props.teamNumber}</div>
             <div>
                 <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.districtGuess]}`}>District</div>
+                <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.stateGuess]}`}>State/Prov</div>
                 <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.eventGuess]}`}>Event</div>
             </div>
         </div>

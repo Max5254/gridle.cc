@@ -33,6 +33,8 @@ export interface GridData {
 export interface TeamData {
     name: string;
     country: string;
+
+    state_prov: string;
     school: string;
     rookie_year: string;
     events: string[];
