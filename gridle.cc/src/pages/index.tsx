@@ -88,8 +88,13 @@ export default function Home() {
     }
 
   return (
+      <>
+      <head>
+          <meta charSet="UTF-8" />
+          <meta name="description" content="gridle - can you guess that grid?" />
+          <title>gridle</title>
+      </head>
     <main className="flex min-h-screen flex-col items-center justify-between p-12">
-
         <div className="m-auto">
             {(gridKey && eventKey) && <Gridle gridKey={gridKey} gridIndex={gridIndex || ""} eventKey={eventKey} gridName={gridName}/>}
             {/*{(eventKey === '2023cmptx') && <>*/}
@@ -196,5 +201,6 @@ export default function Home() {
         {/*    </p>*/}
         {/*</footer>*/}
     </main>
+      </>
   )
 }
