@@ -30,6 +30,9 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./gridle.cc
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -48,7 +51,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
-        working-directory: ./gridle.cc
         uses: 'dudeofawesome/npm-install@v1'
       - name: Build with Next.js
         working-directory: ./gridle.cc
@@ -57,7 +59,6 @@ jobs:
         working-directory: ./gridle.cc
         run: npm run export
       - name: Deploy to S3
-        working-directory: ./gridle.cc
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --follow-symlinks --delete
