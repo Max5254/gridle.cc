@@ -1,7 +1,4 @@
 requests
 py-markdown-table
-numpy
-scipy
-pandas
-matplotlib
-
+boto3
+statbotics

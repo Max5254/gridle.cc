@@ -1,7 +1,16 @@
-import {StylesConfig} from "react-select";
+import {components, DropdownIndicatorProps, IndicatorsContainerProps, StylesConfig} from 'react-select';
 import {TeamInput} from "@/lib/Types";
 import chroma from "chroma-js";
 
+
+export const IndicatorsContainer = (
+    props: IndicatorsContainerProps<TeamInput, true>
+) => {
+    return (
+        <>
+        </>
+    );
+};
 
 export const dropdownStyles: StylesConfig<TeamInput> = {
     control: (styles) => ({ ...styles, backgroundColor: 'white' }),

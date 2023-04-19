@@ -111,6 +111,11 @@ dist
 *.pyc
 
 # data files
+data
+output
 */data/*
 data_generation/output
 *output*
+
+.aws-sam
+.DS_store

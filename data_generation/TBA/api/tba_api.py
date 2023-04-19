@@ -3,6 +3,7 @@ import json
 import os
 import time
 import re
+from os import environ
 
 
 """
@@ -14,7 +15,7 @@ import re
 """
 class TbaApi:
     _base_url = 'https://www.thebluealliance.com/api/v3/'
-    _root = '../data'
+    _root = '../data' if environ.get('LAMBDA_TASK_ROOT') is None else '/tmp'
 
     def __init__(self, auth_key, log, always_cache=True):
         self.headers = {'X-TBA-Auth-Key': auth_key}
@@ -106,6 +107,9 @@ class TbaApi:
 
     def event(self, event_key, simple=False):
         return self._get(f'event/{event_key}' + ('/simple' if simple else ''))
+
+    def event_status(self, event_key):
+        return self._get(f'event/{event_key}/status')
 
     def event_teams(self, event_key, simple=False):
         return self._get(f'event/{event_key}/teams' + ('/simple' if simple else ''))

@@ -6,6 +6,16 @@ export interface GridData {
 
     eventKey: string;
 
+    eventName: string;
+
+    compLevel: string;
+
+    setNumber: number;
+
+    matchNumber: number;
+
+    color: string;
+
     teams: string[];
 
     won: boolean;
@@ -33,8 +43,10 @@ export interface GridData {
 export interface TeamData {
     name: string;
     country: string;
-
     state_prov: string;
+    division: string;
+    epa: number;
+    epa_recent: number;
     school: string;
     rookie_year: string;
     events: string[];
@@ -46,19 +58,23 @@ export interface TeamData {
  * Represents partners.json
  *
  * {
- *     "<team>": {
- *         "<eventKey>": [
- *             ["<partner1>", "<partner2>"],
- *             ...
- *         ]
- *     },
- *     ...
+ *     "teams": {
+ *          "<team>": [<matchKey>, ...],
+ *          ...
+*      },
+ *     "alliances": {
+ *         "<matchKey>": [<teams>],
+ *         ...
+ *     }
  * }
  */
 export type PartnerData  = {
-    [key: string]: // Team number
-        {[key: string]: // Event key
-                string[][]} // Matches w/ partners
+
+    teams: {[key: string]: // Team
+            string[]} // Match keys
+
+    alliances: {[key: string]: // Match key
+            string[]} // Teams
 }
 
 /**

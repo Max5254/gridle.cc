@@ -12,6 +12,11 @@ export enum GuessType {
 
 export interface GuessProps {
     teamNumber: string;
+    teamLabel: string;
+
+    showDistrict?: boolean;
+
+    showDivision?: boolean;
 
     // Guess for the district of this given team (NOT the district of the event)
     districtGuess: GuessType,
@@ -20,10 +25,15 @@ export interface GuessProps {
     stateGuess: GuessType,
 
     // Guess for if this team attended the event for the grid
-    eventGuess: GuessType,
+    divisionGuess: GuessType,
 
     // Guess for if the team itself was in the match
     teamGuess: GuessType,
+
+    // Guess for EPA
+    epaGuess: GuessType,
+    // String for if the EPA was higher/lower
+    epaSymbol: string,
 }
 
 /**
@@ -43,11 +53,12 @@ const Guess: React.FunctionComponent<GuessProps> = (props: GuessProps): JSX.Elem
 
     return (
         <div className={`gap-4 bg-gray-100 text-center p-1 m-1 ${props.teamGuess === GuessType.CORRECT ? "outline outline-green-500" : ""}`}>
-            <div className={`pt-1 pb-0.5 m-1 ${props.teamGuess === GuessType.WRONG ? "bg-white" : guess2Color[props.teamGuess]}`}>{props.teamNumber}</div>
+            <div className={`pt-1 pb-0.5 m-1 ${props.teamGuess === GuessType.WRONG ? "bg-white" : guess2Color[props.teamGuess]}`}>{props.teamLabel}</div>
             <div>
-                <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.districtGuess]}`}>District</div>
-                <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.stateGuess]}`}>State/Prov</div>
-                <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.eventGuess]}`}>Event</div>
+                {props.showDistrict && <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.districtGuess]}`}>District</div>}
+                <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.stateGuess]}`}>State</div>
+                {props.showDivision && <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.divisionGuess]}`}>Division</div>}
+                <div className={`pt-0.5 pb-0.5 m-1 ${guess2Color[props.epaGuess]}`}>{`EPA ${props.epaSymbol}`}</div>
             </div>
         </div>
     );
