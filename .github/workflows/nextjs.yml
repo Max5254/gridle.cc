@@ -37,7 +37,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Restore cache
         uses: actions/cache@v3
         with:
@@ -49,12 +48,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
+        working-directory: ./gridle.cc
         uses: 'dudeofawesome/npm-install@v1'
       - name: Build with Next.js
+        working-directory: ./gridle.cc
         run: npm run build
       - name: Static HTML export with Next.js
+        working-directory: ./gridle.cc
         run: npm run export
       - name: Deploy to S3
+        working-directory: ./gridle.cc
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --follow-symlinks --delete
